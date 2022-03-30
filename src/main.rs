@@ -1,6 +1,6 @@
 extern crate pancurses;
 
-use pancurses::{initscr, endwin, curs_set, napms};
+use pancurses::{initscr, endwin, curs_set};
 
 fn main() {
     let window = initscr();
@@ -11,7 +11,7 @@ fn main() {
     window.mvprintw(y / 2,x / 2,"000");
     curs_set(0);
 
-    window.erase();
+    // window.erase();
 
     let mut counter = 0;
     loop {
@@ -19,7 +19,7 @@ fn main() {
         counter += 1;
         // window.erase();
         // napms(47);
-        if counter == 1000 { break }
+        if counter == 10 { break }
     }
     window.mvprintw(y / 2,x / 2,"000");
     window.refresh();
@@ -28,11 +28,11 @@ fn main() {
 }
 
 
-fn array_test() {
-    let array = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
-    for i in array {
-        for j in i {
-            println!("{:?}", j);
-        }
-    }
-}
+// fn array_test() {
+//     let array = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
+//     for i in array {
+//         for j in i {
+//             println!("{:?}", j);
+//         }
+//     }
+// }
