@@ -1,38 +1,51 @@
 extern crate pancurses;
 
-use pancurses::{initscr, endwin, curs_set, napms};
+use std::borrow::Borrow;
+use pancurses::{ALL_MOUSE_EVENTS, endwin, getmouse, initscr, mousemask, Input, Window, napms};
 
 fn main() {
     let window = initscr();
-    window.mvprintw(40,40,"Hello Rust");
-    let (y, x) = window.get_max_yx();
-    window.mvprintw(40,80,format!("y = {}, x = {}", y, x));
-    window.mvprintw(44,228,"a");
-    window.mvprintw(y / 2,x / 2,"000");
-    curs_set(0);
 
-    window.erase();
+    window.keypad(true); // Set keypad mode
+    mousemask(ALL_MOUSE_EVENTS, Some(&mut 0)); // Listen to all mouse events
 
-    let mut counter = 0;
-    loop {
-        window.mvprintw((y / 2) + counter,(x / 2) + counter,"000");
-        counter += 1;
-        // window.erase();
-        // napms(47);
-        if counter == 1000 { break }
-    }
-    window.mvprintw(y / 2,x / 2,"000");
+    window.printw("press q to exit\npress p to play\npress c to clear");
     window.refresh();
-    window.getch();
+
+    clean_game(window);
+
     endwin();
 }
 
+fn clean_game(window: Window) {
+    loop {
+        match window.getch() {
+            Some(Input::KeyMouse) => {
+                if let Ok(mouse_event) = getmouse() {
+                    let (x, y) = (mouse_event.x, mouse_event.y);
+                    window.get_max_yx();
+                    window.get_beg_x();
+                    window.mvprintw(y, x,"0");
+                };
+            }
+            Some(Input::Character(x)) if x == 'q' => break,
+            Some(Input::Character(x)) if x == 'p' => start_game(window.borrow()),
+            Some(Input::Character(x)) if x == 'c' => {
+                window.erase();
+            },
+            _ => (),
+        }
+    }
+}
 
-fn array_test() {
-    let array = [[0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]];
-    for i in array {
-        for j in i {
-            println!("{:?}", j);
+fn start_game(window: &Window) {
+    loop {
+        match window.getch() {
+            Some(Input::Character(x)) if x == 'q' => break,
+            Some(Input::Character(x)) if x == 'c' => {
+                window.erase();
+            },
+            _ => (),
         }
     }
 }
