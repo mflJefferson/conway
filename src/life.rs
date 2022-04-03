@@ -1,6 +1,4 @@
 pub struct Life {
-    pub(crate) cols: i32,
-    pub(crate) rows: i32,
     pub(crate) generation: i32,
 }
 
