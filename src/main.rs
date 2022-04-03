@@ -6,7 +6,7 @@ use std::borrow::Borrow;
 use pancurses::{ALL_MOUSE_EVENTS, endwin, getmouse, initscr, mousemask, Input, Window, nl, noecho, curs_set};
 use crate::life::Life;
 
-const MAX_SIZE: usize = 300;
+const MAX_SIZE: usize = 200;
 
 fn main() {
     let window = initscr();
@@ -20,7 +20,7 @@ fn main() {
     window.timeout(0);
     window.keypad(true);
 
-    let mut data_even = [[0u32;300]; 300];
+    let mut data_even = [[0u32;MAX_SIZE]; MAX_SIZE];
 
     loop {
         match window.getch() {
@@ -46,7 +46,7 @@ fn main() {
 }
 
 fn pentadecathlon(window: &Window) {
-    let mut data_even = [[0u32;300]; 300];
+    let mut data_even = [[0u32;MAX_SIZE]; MAX_SIZE];
 
     data_even[26][113] = 1;
     data_even[26][118] = 1;
@@ -67,12 +67,12 @@ fn pentadecathlon(window: &Window) {
     start_game(&window, &mut data_even);
 }
 
-fn start_game(window: &Window, data_even: &mut [[u32; 300]; 300]) {
+fn start_game(window: &Window, data_even: &mut [[u32; MAX_SIZE]; MAX_SIZE]) {
     let mut life = Life {
         generation: 0
     };
 
-    let mut data_odd = [[0u32;300]; 300];
+    let mut data_odd = [[0u32;MAX_SIZE]; MAX_SIZE];
 
     loop {
         if life.is_generation_even() {
@@ -108,7 +108,7 @@ fn start_game(window: &Window, data_even: &mut [[u32; 300]; 300]) {
     }
 }
 
-fn arranje_new_generation(current_data: &mut [[u32; 300]; 300], next_data: &mut [[u32; 300]; 300], i: usize, j: usize, y: &u32) {
+fn arranje_new_generation(current_data: &mut [[u32; MAX_SIZE]; MAX_SIZE], next_data: &mut [[u32; MAX_SIZE]; MAX_SIZE], i: usize, j: usize, y: &u32) {
     let mut neighbors = 0;
     let mut next_i;
     let mut next_j;
@@ -168,7 +168,7 @@ fn arranje_new_generation(current_data: &mut [[u32; 300]; 300], next_data: &mut 
 
 
 fn pulsar(window: &Window) {
-    let mut data_even = [[0u32;300]; 300];
+    let mut data_even = [[0u32;MAX_SIZE]; MAX_SIZE];
 
     data_even[25][113] = 1;
     data_even[25][114] = 1;
